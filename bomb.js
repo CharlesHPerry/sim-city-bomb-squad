@@ -40,12 +40,29 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // For Debugging
     console.log(wiresToCut)
-    countdown = setInterval(updateClock, 100)
+    countdown = setInterval(updateClock, 1000)
     resetBtn.disabled = true;
     }
     function wireClick(e) {
         console.log("clicked wire box")
-        console.log(e.target.id)
+        let color = e.target.id;
+        //If the game is not over and the wire has not been cut
+        if (gameOver === false && wireState[color] === false){
+            e.target.src = "img/cut-" + color + "-wire.png";
+            wireState[color] = true;
+            let wireIndex = wiresToCut.indexOf(color);
+            // if the wire has an index, it needs to be cut!
+            if (wireIndex >- 1) {
+                console.log("Correct!")
+                wiresToCut.splice(wireIndex, 1);
+                if (wiresToCut.length === 0){
+                    endGame(true);
+                }
+            }else {
+                console.log('Bad News Bears!');
+                endGame(false);
+            }
+        }
     }
 
     function updateClock(){
